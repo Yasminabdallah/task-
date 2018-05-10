@@ -1,4 +1,4 @@
-
+#!/usr/bin/env node
 var fs = require('fs');
 var readline = require('readline');
 var LineByLineReader = require('line-by-line');
@@ -39,7 +39,7 @@ else if (action == "get" && argsone) {
 
   lineReader.on('line', function (line) {
     var buf = Buffer.from(line);
-    let result = buf.indexOf('key:' + argsone);
+    let result = buf.indexOf('key:' + argsone );
     if (result > -1) {
       //print selected line 
       console.log(line);
@@ -68,7 +68,7 @@ else if (action == "remove" && argsone) {
     var buf = Buffer.from(line);
     linenum++;
 
-    if (buf.indexOf('key:' + argsone) > -1) {
+    if (buf.indexOf('key:' + argsone +',') > -1) {
       //now we have num of line we want to remove it 
       currentnumber = linenum;
       fs.readFile(fileName, 'utf8', function (err, data) {
@@ -76,8 +76,10 @@ else if (action == "remove" && argsone) {
 
           console.log(err)
         }
+        console.log(currentnumber)
         // remove selected line from data 
         var linesExceptmatched = data.split('\n').slice(currentnumber).join('\n');
+        console.log(linesExceptmatched)
         //append new data in file 
         fs.writeFile(fileName, linesExceptmatched, function (err) {
           if (err) {
