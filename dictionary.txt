@@ -1,5 +1,2 @@
-key:hello,value :World
-key:hello,value :world
-key:hello,value :world
-key:yasso,value:habebty
-key:mama,value:habebty
+key:s,value:a
+key:k,value:l
