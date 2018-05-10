@@ -10,7 +10,7 @@ var fileName = 'dictionary.txt';
 
 
 if (action == "add" && argsone && argstwo) {
-  console.log(action + " " + argsone + " " + argstwo);
+ 
   var newobj = "key:" + argsone + ',' + "value:" + argstwo;
 
   fs.appendFileSync(fileName, '\r\n' + newobj, 'utf8', function (err) {
@@ -32,7 +32,7 @@ else if (action == "list") {
 }
 else if (action == "get" && argsone) {
 
-  let found = false;
+
   var lineReader = readline.createInterface({
     input: require('fs').createReadStream(fileName)
   });
@@ -41,13 +41,15 @@ else if (action == "get" && argsone) {
     var buf = Buffer.from(line);
     let result = buf.indexOf('key:' + argsone);
     if (result > -1) {
+      //print selected line 
       console.log(line);
-      found = true;
+
 
     }
 
 
   });
+
 
 
 }
@@ -62,25 +64,29 @@ else if (action == "remove" && argsone) {
   });
 
   lineReader.on('line', function (line) {
+    //to get line match entered key 
     var buf = Buffer.from(line);
     linenum++;
 
     if (buf.indexOf('key:' + argsone) > -1) {
+      //now we have num of line we want to remove it 
       currentnumber = linenum;
       fs.readFile(fileName, 'utf8', function (err, data) {
         if (err) {
-          
+
           console.log(err)
         }
+        // remove selected line from data 
         var linesExceptmatched = data.split('\n').slice(currentnumber).join('\n');
-        fs.writeFile(fileName, linesExceptmatched,function(err){
-          if(err){
+        //append new data in file 
+        fs.writeFile(fileName, linesExceptmatched, function (err) {
+          if (err) {
             console.log(err)
           }
         });
-       
+
       });
-     
+
     }
   });
 
@@ -88,7 +94,7 @@ else if (action == "remove" && argsone) {
 }
 
 else if (action == "clear") {
-
+ // clear data by append empty data to file 
   fs.writeFile(fileName, '', function () { console.log('done') })
 }
 else {
